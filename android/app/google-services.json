@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "236974795343",
+    "project_id": "vichackmobile",
+    "storage_bucket": "vichackmobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236974795343:android:7d77cc8c548af65e70183a",
+        "android_client_info": {
+          "package_name": "com.vichack.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClE8_8DaD7NrUKLfL6InJyz4ioroQOVUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
