@@ -47,6 +47,11 @@ android {
         versionName = flutterVersionName
     }
 
+    defaultConfig {                                                                             
+        minSdkVersion 23                                                                          
+    }                                                                                           
+    
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
