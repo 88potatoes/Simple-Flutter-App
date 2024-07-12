@@ -2,11 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); // Need this so we can initialise in main
-  await Firebase.initializeApp(); // Run Flutter init
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,); // Run Flutter init
 
   runApp(const MyApp());
 }
@@ -39,19 +40,167 @@ class MyApp extends StatelessWidget {
             );
           },
           '/profile': (context) {
-            return ProfileScreen(
-              providers: providers,
-              actions: [
-                SignedOutAction((context) {
-                  Navigator.pushReplacementNamed(context, '/sign-in');
-                }),
-              ],
-            );
+            return HomeScreen();
+            // ProfileScreen(
+            //   providers: providers,
+            //   actions: [
+            //     SignedOutAction((context) {
+            //       Navigator.pushReplacementNamed(context, '/sign-in');
+            //     }),
+            //   ],
+            // );
           },
         });
   }
 }
 
+
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('Home'),
+            TextButton(
+              onPressed: () {
+                // Add logout functionality here
+              },
+              child: const Text(
+                'Logout',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0), // Adds padding between the posts and the edge of the screen
+        child: Scrollbar(
+          thumbVisibility: true,
+          controller: _scrollController,
+          child: ListView(
+            controller: _scrollController,
+            children: [
+              PostWidget(postText: 'POST 1'),
+              PostWidget(postText: 'POST 2'),
+              PostWidget(postText: 'POST 3'),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PostWidget extends StatelessWidget {
+  final String postText;
+
+  PostWidget({required this.postText});
+
+  void _onPostTap(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PostDetailScreen(postText: postText),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _onPostTap(context),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        margin: const EdgeInsets.symmetric(vertical: 20), // Adds more spacing between the posts
+        child: Container(
+          height: 150, // Makes the posts square
+          width: double.infinity, // Ensures the post takes full width available
+          padding: const EdgeInsets.all(15.0),
+          child: Center(child: Text(postText)),
+        ),
+      ),
+    );
+  }
+}
+
+class PostDetailScreen extends StatelessWidget {
+  final String postText;
+
+  const PostDetailScreen({super.key,required this.postText});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Post Detail'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0), // Adds padding around the post detail screen
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Container(
+                height: 150, // Makes the post square
+                width: double.infinity,
+                padding: const EdgeInsets.all(15.0),
+                child: Center(child: Text(postText)),
+              ),
+            ),
+            const SizedBox(height: 20), // Space between the post and comments
+            const Text(
+              'Comments',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10), // Space between the "Comments" title and comments list
+            Expanded(
+              child: ListView(
+                children: const [
+                  CommentWidget(commentText: 'Comment 1'),
+                  CommentWidget(commentText: 'Comment 2'),
+                  CommentWidget(commentText: 'Comment 3'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CommentWidget extends StatelessWidget {
+  final String commentText;
+
+  const CommentWidget({super.key,required this.commentText});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 10), // Adds spacing between comments
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Text(commentText),
+      ),
+    );
+  }
+}
+/*
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -139,3 +288,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+*/
