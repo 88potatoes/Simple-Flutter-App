@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:vic_hack_mobile/pages/new_post.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
@@ -18,9 +19,12 @@ class _FeedPageState extends State<FeedPage> {
         appBar: AppBar(
           actions: [
             IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {},
-            ),
+                icon: const Icon(Icons.add),
+                onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NewPostPage()),
+                    )),
           ],
         ),
         body: SafeArea(
@@ -46,8 +50,8 @@ class _FeedPageState extends State<FeedPage> {
                       Map<String, dynamic> data =
                           document.data()! as Map<String, dynamic>;
                       return ListTile(
-                        title: Text(data['full_name']),
-                        subtitle: Text(data['company']),
+                        title: Text(data['title']),
+                        subtitle: Text(data['content']),
                       );
                     }).toList(),
                   );
