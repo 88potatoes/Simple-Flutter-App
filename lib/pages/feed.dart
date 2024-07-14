@@ -10,8 +10,10 @@ class FeedPage extends StatefulWidget {
 }
 
 class _FeedPageState extends State<FeedPage> {
-  Stream<QuerySnapshot> collectionStream =
-      FirebaseFirestore.instance.collection('posts').snapshots();
+  Stream<QuerySnapshot> collectionStream = FirebaseFirestore.instance
+      .collection('posts')
+      .orderBy("date", descending: true)
+      .snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,9 @@ class _FeedPageState extends State<FeedPage> {
                       return ListTile(
                         title: Text(data['title']),
                         subtitle: Text(data['content']),
+                        trailing: data["imageUrl"] != null
+                            ? Image.network(data["imageUrl"])
+                            : null,
                       );
                     }).toList(),
                   );
