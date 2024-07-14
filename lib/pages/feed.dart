@@ -51,6 +51,7 @@ class _FeedPageState extends State<FeedPage> {
                         snapshot.data!.docs.map((DocumentSnapshot document) {
                       Map<String, dynamic> data =
                           document.data()! as Map<String, dynamic>;
+                      // TODO: Make these list tiles navigate to a Post Page where people can comment etc.
                       return ListTile(
                         title: Text(data['title']),
                         subtitle: Text(data['content']),
