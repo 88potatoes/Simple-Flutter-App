@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:vic_hack_mobile/firebase_options.dart';
 import 'pages/login.dart';
 
@@ -10,7 +9,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ); // Run Flutter init
-  
+
   runApp(const MyApp());
 }
 
@@ -20,8 +19,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final providers = [EmailAuthProvider()];
-
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
