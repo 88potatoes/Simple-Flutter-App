@@ -3,16 +3,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vic_hack_mobile/pages/signup.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class SignupPage extends StatefulWidget {
+  const SignupPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
@@ -30,13 +29,13 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 SizedBox(height: 20),
                 Text(
-                  'Welcome back!',
+                  'Sign Up today!',
                   style: GoogleFonts.inter(
                       fontWeight: FontWeight.bold, fontSize: 30),
                 ),
                 SizedBox(height: 5),
                 Text(
-                  'This is a simple login page.',
+                  'This is a simple Signup page.',
                   style: GoogleFonts.inter(
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.normal,
@@ -142,15 +141,16 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () async {
                       try {
                         final credential = await FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
+                            .createUserWithEmailAndPassword(
                           email: emailController.text,
                           password: passwordController.text,
                         );
                       } on FirebaseAuthException catch (e) {
-                        if (e.code == 'user-not-found') {
-                          print('No user found for that email.');
-                        } else if (e.code == 'wrong-password') {
-                          print('Wrong password provided for that user.');
+                        print(e);
+                        if (e.code == 'weak-password') {
+                          print('The password provided is too weak.');
+                        } else if (e.code == 'email-already-in-use') {
+                          print('The account already exists for that email.');
                         }
                       } catch (e) {
                         print(e);
@@ -168,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                       // Ensure padding, elevation, etc., are set as needed
                     ),
                     child: Text(
-                      'SIGN IN',
+                      'SIGN UP',
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Don\'t have an account? ',
+                      'Have an account?',
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -189,15 +189,11 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignupPage()),
-                        );
+                      onPressed: () async {
+                        Navigator.pop(context);
                       },
                       child: Text(
-                        'Sign up',
+                        'Sign In',
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w900,
                           fontSize: 16,
