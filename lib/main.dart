@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:vic_hack_mobile/firebase_options.dart';
-import 'package:vic_hack_mobile/pages/feed.dart';
+import 'firebase_options.dart';
+import 'pages/feed.dart';
 import 'pages/login.dart';
 
 void main() async {
@@ -55,9 +55,9 @@ class MyApp extends StatelessWidget {
           }
 
           if (snapshot.data == null) {
-            return const LoginPage();
+            return LoginPage();
           }
-          return const FeedPage();
+          return FeedPage();
         },
       ),
     );

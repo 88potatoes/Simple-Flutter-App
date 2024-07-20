@@ -1,17 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:vic_hack_mobile/pages/new_post.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import '/pages/new_post.dart';
 
-class FeedPage extends StatefulWidget {
-  const FeedPage({super.key});
+class FeedPage extends StatelessWidget {
+  FeedPage({super.key});
 
-  @override
-  State<FeedPage> createState() => _FeedPageState();
-}
-
-class _FeedPageState extends State<FeedPage> {
-  Stream<QuerySnapshot> collectionStream = FirebaseFirestore.instance
+  final Stream<QuerySnapshot> collectionStream = FirebaseFirestore.instance
       .collection('posts')
       .orderBy("date", descending: true)
       .snapshots();
@@ -38,7 +33,7 @@ class _FeedPageState extends State<FeedPage> {
             ),
             ListTile(
               leading: const Icon(Icons.add),
-              title: const Text('Create Community'),
+              title: const Text('Create Post'),
               onTap: () {
                 Navigator.of(context).pop();
 
@@ -86,6 +81,8 @@ class _FeedPageState extends State<FeedPage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Text("Loading");
             }
+
+            // return const Center(child: Text("No posts found"));
 
             if (snapshot.data!.docs.isEmpty) {
               return const Center(child: Text("No posts found"));
