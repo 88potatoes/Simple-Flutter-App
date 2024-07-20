@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '/pages/signup.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class SignupPage extends StatelessWidget {
+  SignupPage({super.key});
 
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -18,9 +16,9 @@ class LoginPage extends StatelessWidget {
         child: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             const SizedBox(height: 20),
-            const Text('Welcome back!'),
+            const Text('Sign Up today!'),
             const SizedBox(height: 5),
-            const Text('This is a simple login page.'),
+            const Text('This is a simple Signup page.'),
             const SizedBox(height: 20),
             Form(
                 key: _formKey,
@@ -75,8 +73,7 @@ class LoginPage extends StatelessWidget {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color:
-                                          Color.fromARGB(255, 122, 125, 128)),
+                                      color: Color.fromARGB(255, 52, 63, 70)),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 labelText: '  Password ',
@@ -106,16 +103,17 @@ class LoginPage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   try {
-                    final credential =
-                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                    final credential = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
                       email: emailController.text,
                       password: passwordController.text,
                     );
                   } on FirebaseAuthException catch (e) {
-                    if (e.code == 'user-not-found') {
-                      print('No user found for that email.');
-                    } else if (e.code == 'wrong-password') {
-                      print('Wrong password provided for that user.');
+                    print(e);
+                    if (e.code == 'weak-password') {
+                      print('The password provided is too weak.');
+                    } else if (e.code == 'email-already-in-use') {
+                      print('The account already exists for that email.');
                     }
                   } catch (e) {
                     print(e);
@@ -133,21 +131,18 @@ class LoginPage extends StatelessWidget {
                       WidgetStateProperty.all<Size>(const Size(332, 60)),
                   // Ensure padding, elevation, etc., are set as needed
                 ),
-                child: const Text('SIGN IN'),
+                child: const Text('SIGN UP'),
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Don\'t have an account? '),
+                const Text('Have an account?'),
                 TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignupPage()),
-                    );
+                  onPressed: () async {
+                    Navigator.pop(context);
                   },
-                  child: const Text('Sign up'),
+                  child: const Text('Sign In'),
                 ),
               ],
             )

@@ -20,7 +20,6 @@ class _NewPostPageState extends State<NewPostPage> {
   bool loading = false;
 
   // Create a storage reference from our app
-  final storageRef = FirebaseStorage.instance.ref();
   final postsRef = FirebaseStorage.instance.ref().child('posts');
   final ImagePicker _picker = ImagePicker();
 
